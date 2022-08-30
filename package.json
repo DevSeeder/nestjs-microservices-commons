@@ -1,0 +1,62 @@
+{
+  "name": "@devseeder/nestjs-microservices-commons",
+  "version": "1.0.0",
+  "description": "NestJS Common Package for DevSeeder projects",
+  "author": "Maick Speck <maick@devseeder.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*",
+    "*.md"
+  ],
+  "scripts": {
+    "start:dev": "tsc -w",
+    "build": "tsc",
+    "prepare": "npm run build",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "keywords": [
+    "nestjs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevSeeder/nestjs-microservices-commons/"
+  },
+  "bugs": "https://github.com/DevSeeder/nestjs-microservices-commons/",
+  "dependencies": {
+    "@devseeder/microservices-exceptions": "file:../microservices-exceptions",
+    "@golevelup/nestjs-rabbitmq": "^3.2.0",
+    "@nestjs/common": "^9.0.11",
+    "@nestjs/config": "^2.2.0",
+    "@nestjs/core": "^9.0.11",
+    "@nestjs/jwt": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.0",
+    "@nestjs/passport": "^9.0.0",
+    "mongoose": "^6.5.3",
+    "nest": "^0.1.6",
+    "passport-jwt": "^4.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
