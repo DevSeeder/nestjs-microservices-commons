@@ -6,7 +6,7 @@
   </a>
 </div>
 
-<h3 align="center">NestJS npm Package Starter</h3>
+<h3 align="center">NestJS Common Package for DevSeeder projects</h3>
 
 <div align="center">
   <a href="https://nestjs.com" target="_blank">
@@ -16,17 +16,10 @@
 
 ### Installation
 
-1. Clone the repo
-2. Run npm/yarn install
-
 ```bash
 cd nestjs-package-starter
-npm install
+npm install @devseeder/nestjs-microservices-commons
 ```
-
-## Change Log
-
-See [Changelog](CHANGELOG.md) for more information.
 
 ## Contributing
 
@@ -34,7 +27,7 @@ Contributions welcome! See [Contributing](CONTRIBUTING.md).
 
 ## Author
 
-**John Biundo (Y Prospect on [Discord](https://discord.gg/G7Qnnhy))**
+**Maick Speck (maick@devseeder.com)**
 
 ## License
 
