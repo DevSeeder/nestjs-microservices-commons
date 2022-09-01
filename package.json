@@ -1,6 +1,6 @@
 {
   "name": "@devseeder/nestjs-microservices-commons",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "NestJS Common Package for DevSeeder projects",
   "author": "Maick Speck <maick@devseeder.com>",
   "license": "MIT",
@@ -33,7 +33,7 @@
   },
   "bugs": "https://github.com/DevSeeder/nestjs-microservices-commons/",
   "dependencies": {
-    "@devseeder/microservices-exceptions": "^1.0.3",
+    "@devseeder/microservices-exceptions": "^1.0.5",
     "@golevelup/nestjs-rabbitmq": "^3.2.0",
     "@nestjs/common": "^9.0.11",
     "@nestjs/config": "^2.2.0",
