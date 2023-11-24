@@ -2,7 +2,7 @@ declare global {
   interface String {
     capitalize(): string;
     replaceAll(search: string, replacement: string): string;
-    capitalizeFirstLetter(str: string): string;
+    capitalizeFirstLetter(): string;
   }
 }
 
@@ -14,8 +14,8 @@ String.prototype.replaceAll = function (search: string, replacement: string) {
   return this.split(search).join(replacement);
 };
 
-String.prototype.capitalizeFirstLetter = function (str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+String.prototype.capitalizeFirstLetter = function (): string {
+  return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 export {};

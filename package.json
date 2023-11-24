@@ -41,6 +41,7 @@
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mongoose": "^9.2.0",
     "@nestjs/passport": "^9.0.0",
+    "joi": "^17.11.0",
     "mongoose": "^6.5.3",
     "nest": "^0.1.6",
     "passport-jwt": "^4.0.0"
