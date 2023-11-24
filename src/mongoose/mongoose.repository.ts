@@ -149,6 +149,8 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     select: any = {},
     sort: any = {},
     regex = true,
+    limit = 0,
+    skip = 0,
   ): Promise<any[]> {
     if (Object.keys(select).length === 0) select = { _id: 0 };
 
@@ -157,6 +159,12 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
       : searchParams;
 
     let res = this.model.find(searchParams);
+
+    if (skip) res = res.skip(skip - 1);
+    if (limit) res = res.limit(limit);
+
+    if (typeof sort === 'object' && Object.keys(sort).length > 0)
+      res = res.sort(sort);
 
     if (typeof sort === 'object' && Object.keys(sort).length > 0)
       res = res.sort(sort);
