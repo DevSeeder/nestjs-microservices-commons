@@ -148,7 +148,7 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
   ): Promise<void> {
     this.model.updateMany(
       query,
-      { data, ...pushData },
+      { $set: data, ...pushData },
       { upsert: false, strict },
       function (err: MongoError) {
         if (err) throw new MongoDBException(err.message, err.code);
