@@ -146,14 +146,19 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     pushData = {},
     strict = true,
   ): Promise<any> {
-    return this.model.updateMany(
+    const result = this.model.updateMany(
       query,
       { $set: data, ...pushData },
       { upsert: false, strict },
-      function (err: MongoError) {
-        if (err) throw new MongoDBException(err.message, err.code);
-      },
     );
+
+    return result.exec((err, result) => {
+      if (err) throw new MongoDBException(err.message, err.name);
+
+      console.log(result.modifiedCount, 'records updated.');
+
+      return result;
+    });
   }
 
   async deleteOneById(id: string | number): Promise<void> {
