@@ -140,6 +140,22 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     );
   }
 
+  async updateMany(
+    query: any,
+    data: any,
+    pushData = {},
+    strict = true,
+  ): Promise<void> {
+    this.model.updateMany(
+      query,
+      { data, ...pushData },
+      { upsert: false, strict },
+      function (err: MongoError) {
+        if (err) throw new MongoDBException(err.message, err.code);
+      },
+    );
+  }
+
   async deleteOneById(id: string | number): Promise<void> {
     await this.model.deleteOne({ id });
   }
