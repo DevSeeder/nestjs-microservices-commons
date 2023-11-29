@@ -145,8 +145,8 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     data: any,
     pushData = {},
     strict = true,
-  ): Promise<void> {
-    this.model.updateMany(
+  ): Promise<any> {
+    return this.model.updateMany(
       query,
       { $set: data, ...pushData },
       { upsert: false, strict },
