@@ -160,7 +160,7 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
       strict,
       ...this.getSessionOptions(session),
     };
-    this.logger.log(`Update Options: ${JSON.stringify(options)}`);
+    this.logger.log(`Update Options: ${options}`);
     await this.model.findOneAndUpdate(
       query,
       { $set: data, ...pushData },
@@ -225,9 +225,15 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     return res.select(select).lean().exec();
   }
 
-  async startSession(): Promise<void> {
+  private async startSession(): Promise<void> {
     if (this.session) this.logger.warn(`Session already exists`);
     this.session = await this.model.startSession();
+  }
+
+  private async endSession(): Promise<void> {
+    if (!this.session) this.logger.warn(`Session already finished`);
+    await this.session.endSession();
+    this.session = null;
   }
 
   async startTransaction(): Promise<ClientSession> {
@@ -242,7 +248,7 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     if (!this.session) return;
     this.logger.log(`Committing transaction...`);
     await this.session.commitTransaction();
-    this.session = null;
+    await this.endSession();
     this.logger.log(`Transaction commited.`);
   }
 
@@ -250,7 +256,7 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     if (!this.session) return;
     this.logger.log(`Starting Rollback...`);
     await this.session.abortTransaction();
-    this.session = null;
+    await this.endSession();
     this.logger.log(`Rollback finished.`);
   }
 
