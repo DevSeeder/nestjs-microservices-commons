@@ -161,14 +161,13 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
       ...this.getSessionOptions(session),
     };
     this.logger.log(`Update Options: ${options}`);
-    await this.model.findOneAndUpdate(
-      query,
-      { $set: data, ...pushData },
-      options,
-      function (err: MongoError) {
-        if (err) throw new MongoDBException(err.message, err.code);
-      },
-    );
+    await this.model
+      .findOneAndUpdate(query, { $set: data, ...pushData }, options)
+      .catch((err) => {
+        console.log('Mongo Error');
+        console.log(err);
+        throw new MongoDBException(err.message, err.code);
+      });
   }
 
   async updateMany(
