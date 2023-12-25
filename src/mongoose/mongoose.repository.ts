@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { HydratedDocument, Model, ObjectId } from 'mongoose';
+import { ClientSession, HydratedDocument, Model, ObjectId } from 'mongoose';
 import { MongoError } from 'mongodb';
 import { MongooseHelper } from './mongoose.helper';
 import { getModelToken } from '@nestjs/mongoose';
@@ -11,6 +11,7 @@ export type MongooseDocumentID = string | ObjectId;
 
 export abstract class MongooseRepository<Collection, MongooseModel> {
   protected readonly logger: Logger = new Logger(this.constructor.name);
+  protected session: ClientSession;
 
   constructor(protected model: Model<MongooseModel>) {}
 
@@ -31,8 +32,10 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
   }
 
   async create(document: Collection): Promise<MongooseDocument> {
+    const options = this.session ? { session: this.session } : {};
+
     return new Promise(async (resolve, reject) => {
-      this.model.create(document, function (err, savedDoc) {
+      this.model.create([document], options, function (err, savedDoc) {
         if (err) reject(err);
         resolve(savedDoc);
       });
@@ -191,5 +194,33 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
       res = res.sort(sort);
 
     return res.select(select).lean().exec();
+  }
+
+  private async startSession(): Promise<void> {
+    if (this.session) this.logger.warn(`Session already exists`);
+    this.session = await this.model.startSession();
+  }
+
+  async startTransaction(): Promise<void> {
+    if (this.session) return;
+    this.logger.log(`Starting transaction...`);
+    await this.startSession();
+    await this.session.startTransaction();
+  }
+
+  async commit(): Promise<void> {
+    if (!this.session) return;
+    this.logger.log(`Committing transaction...`);
+    await this.session.commitTransaction();
+    this.session = null;
+    this.logger.log(`Transaction commited.`);
+  }
+
+  async rollback(): Promise<void> {
+    if (!this.session) return;
+    this.logger.log(`Starting Rollback...`);
+    await this.session.abortTransaction();
+    this.session = null;
+    this.logger.log(`Rollback finished.`);
   }
 }
