@@ -155,10 +155,16 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     strict = false,
     session: ClientSession = null,
   ): Promise<void> {
-    this.model.findOneAndUpdate(
+    const options = {
+      upsert: false,
+      strict,
+      ...this.getSessionOptions(session),
+    };
+    this.logger.log(`Update Options: ${JSON.stringify(options)}`);
+    await this.model.findOneAndUpdate(
       query,
       { $set: data, ...pushData },
-      { upsert: false, strict, ...this.getSessionOptions(session) },
+      options,
       function (err: MongoError) {
         if (err) throw new MongoDBException(err.message, err.code);
       },
