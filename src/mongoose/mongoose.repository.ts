@@ -25,8 +25,8 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
         this.logger.log(
           `${item.constructor.name} '${name}' saved successfully!`,
         );
-        this.logger.log(`ID: ${savedDoc._id}`);
-        return savedDoc._id;
+        this.logger.log(`ID: ${savedDoc[0]._id}`);
+        return savedDoc[0]._id;
       },
       (err: MongoError) => {
         this.logger.error(err.message);
@@ -213,11 +213,12 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     this.session = await this.model.startSession();
   }
 
-  async startTransaction(): Promise<void> {
+  async startTransaction(): Promise<ClientSession> {
     if (this.session) return;
     this.logger.log(`Starting transaction...`);
     await this.startSession();
     await this.session.startTransaction();
+    return this.session;
   }
 
   async commit(): Promise<void> {
