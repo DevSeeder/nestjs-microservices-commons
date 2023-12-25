@@ -15,8 +15,12 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
 
   constructor(protected model: Model<MongooseModel>) {}
 
-  async insertOne(item: Collection, name: string): Promise<ObjectId> {
-    return this.create(item).then(
+  async insertOne(
+    item: Collection,
+    name: string,
+    session: ClientSession = null,
+  ): Promise<ObjectId> {
+    return this.create(item, session).then(
       (savedDoc: MongooseDocument) => {
         this.logger.log(
           `${item.constructor.name} '${name}' saved successfully!`,
@@ -31,8 +35,16 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     );
   }
 
-  async create(document: Collection): Promise<MongooseDocument> {
-    const options = this.session ? { session: this.session } : {};
+  async create(
+    document: Collection,
+    session: ClientSession = null,
+  ): Promise<MongooseDocument> {
+    const clientSession = session
+      ? session
+      : this.session
+      ? this.session
+      : null;
+    const options = clientSession ? { session: clientSession } : {};
 
     return new Promise(async (resolve, reject) => {
       this.model.create([document], options, function (err, savedDoc) {
@@ -196,7 +208,7 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     return res.select(select).lean().exec();
   }
 
-  private async startSession(): Promise<void> {
+  async startSession(): Promise<void> {
     if (this.session) this.logger.warn(`Session already exists`);
     this.session = await this.model.startSession();
   }
