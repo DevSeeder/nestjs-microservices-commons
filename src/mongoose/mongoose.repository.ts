@@ -39,18 +39,15 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     document: Collection,
     session: ClientSession = null,
   ): Promise<MongooseDocument> {
-    const clientSession = session
-      ? session
-      : this.session
-      ? this.session
-      : null;
-    const options = clientSession ? { session: clientSession } : {};
-
     return new Promise(async (resolve, reject) => {
-      this.model.create([document], options, function (err, savedDoc) {
-        if (err) reject(err);
-        resolve(savedDoc);
-      });
+      this.model.create(
+        [document],
+        this.getSessionOptions(session),
+        function (err, savedDoc) {
+          if (err) reject(err);
+          resolve(savedDoc);
+        },
+      );
     });
   }
 
@@ -131,8 +128,20 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     return this.model.findById(id).select(select).lean().exec();
   }
 
-  async updateOneById(id: MongooseDocumentID, data: any): Promise<void> {
-    const res = await this.updateOne({ _id: id }, data);
+  async updateOneById(
+    id: MongooseDocumentID,
+    data: any,
+    session: ClientSession = null,
+    pushData = {},
+    strict = false,
+  ): Promise<void> {
+    const res = await this.updateOne(
+      { _id: id },
+      data,
+      pushData,
+      strict,
+      session,
+    );
     this.logger.log(
       `${getModelToken(this.model.name)} ${id} - Succesfully updated!.`,
     );
@@ -144,11 +153,12 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     data: any,
     pushData = {},
     strict = false,
+    session: ClientSession = null,
   ): Promise<void> {
     this.model.findOneAndUpdate(
       query,
       { $set: data, ...pushData },
-      { upsert: false, strict },
+      { upsert: false, strict, ...this.getSessionOptions(session) },
       function (err: MongoError) {
         if (err) throw new MongoDBException(err.message, err.code);
       },
@@ -160,11 +170,12 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     data: any,
     pushData = {},
     strict = true,
+    session: ClientSession = null,
   ): Promise<any> {
     const result = this.model.updateMany(
       query,
       { $set: data, ...pushData },
-      { upsert: false, strict },
+      { upsert: false, strict, ...this.getSessionOptions(session) },
     );
 
     return result.exec((err, result) => {
@@ -235,5 +246,14 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     await this.session.abortTransaction();
     this.session = null;
     this.logger.log(`Rollback finished.`);
+  }
+
+  private getSessionOptions(session: ClientSession = null) {
+    const clientSession = session
+      ? session
+      : this.session
+      ? this.session
+      : null;
+    return clientSession ? { session: clientSession } : {};
   }
 }
