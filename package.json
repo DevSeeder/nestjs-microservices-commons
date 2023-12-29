@@ -1,6 +1,6 @@
 {
   "name": "@devseeder/nestjs-microservices-commons",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "NestJS Common Package for DevSeeder projects",
   "author": "Maick Speck <maick@devseeder.com>",
   "license": "MIT",
