@@ -1,6 +1,5 @@
-import { getModelToken } from '@nestjs/mongoose';
 import { Schema } from 'mongoose';
-import { CustomProvider } from 'src/dto';
+import { CustomProvider } from '../dto';
 
 export interface ModelEntityTokens {
   [key: string]: {
