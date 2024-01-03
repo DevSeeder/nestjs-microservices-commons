@@ -28,7 +28,6 @@ import {
   CloneOneResponse,
 } from '../../dto/response/clone.response';
 import { GenericCreateService } from '../../service/abstract/generic-create.service';
-import { MetaDataInterceptor } from '../../interceptor';
 
 const allKey = 'CREATE';
 
@@ -37,8 +36,16 @@ export function GenericCreateController<
   GetResponse,
   SearchParams,
   BodyDto,
->({ entity, authGuard }: { entity: string; authGuard }) {
-  @UseInterceptors(MetaDataInterceptor)
+>({
+  entity,
+  authGuard,
+  interceptor,
+}: {
+  entity: string;
+  authGuard;
+  interceptor;
+}) {
+  @UseInterceptors(interceptor)
   @Controller(entity.toLowerCase())
   class GenericCreateControllerHost extends AbstractController<
     Collection,

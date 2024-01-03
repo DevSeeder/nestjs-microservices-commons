@@ -18,7 +18,6 @@ import {
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractController } from '../abstract/abstract.controller';
 import { MetaScope } from '@devseeder/nestjs-microservices-core';
-import { MetaDataInterceptor } from '../../interceptor';
 
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import {
@@ -36,8 +35,16 @@ export function GenericGetController<
   GetResponse,
   SearchParams,
   BodyDto,
->({ entity, authGuard }: { entity: string; authGuard }) {
-  @UseInterceptors(MetaDataInterceptor)
+>({
+  entity,
+  authGuard,
+  interceptor,
+}: {
+  entity: string;
+  authGuard;
+  interceptor;
+}) {
+  @UseInterceptors(interceptor)
   @Controller(entity.toLowerCase())
   class GenericGetControllerHost extends AbstractController<
     Collection,

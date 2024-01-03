@@ -31,8 +31,16 @@ export function GenericUpdateController<
   GetResponse,
   SearchParams,
   BodyDto,
->({ entity, authGuard }: { entity: string; authGuard }) {
-  @UseInterceptors(MetaDataInterceptor)
+>({
+  entity,
+  authGuard,
+  interceptor,
+}: {
+  entity: string;
+  authGuard;
+  interceptor;
+}) {
+  @UseInterceptors(interceptor)
   @Controller(entity.toLowerCase())
   class GenericUpdateControllerHost extends AbstractController<
     Collection,
