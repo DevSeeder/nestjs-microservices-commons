@@ -5,6 +5,8 @@ import {
   ErrorService,
   GLOBAL_ENTITY,
   GetTranslationService,
+  SKIP_ENUMS,
+  SKIP_ENUMS_ALIAS,
 } from '@devseeder/nestjs-microservices-schemas';
 import {
   EntitySchema,
@@ -24,7 +26,6 @@ import {
   manyCloneSchema,
   singleCloneSchema,
 } from '../../field-schemas/abstract-input.schema';
-import { SKIP_ENUMS, SKIP_ENUMS_ALIAS } from '../../app.constants';
 
 export class FieldSchemaBuilder {
   private schemaValidator: SchemaValidator;

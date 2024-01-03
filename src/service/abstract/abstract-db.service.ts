@@ -3,6 +3,7 @@ import { AbstractEntityLoader } from '../../loader/abstract-entity.loader';
 import {
   ErrorService,
   GetTranslationService,
+  VALIDATE_ID_ENUMS,
 } from '@devseeder/nestjs-microservices-schemas';
 import { Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
@@ -17,7 +18,6 @@ import {
   SearchEgineOperators,
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractDocument } from '../../schema/abstract.schema';
-import { VALIDATE_ID_ENUMS } from '../../app.constants';
 import { Relation } from '../../interface/relation.interface';
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import { GenericRepository } from '../../mongoose/generic.repository';
