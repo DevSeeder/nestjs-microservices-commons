@@ -6,3 +6,7 @@ export * from './dto';
 export * from './helper';
 export * from './interface';
 export * from './schema';
+export * from './controller';
+export * from './enum';
+export * from './field-schemas';
+export * from './loader';
