@@ -15,7 +15,6 @@ import {
 } from '@devseeder/nestjs-microservices-schemas';
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import { GenericRepository } from '../../mongoose/generic.repository';
-import { DependencyInjectorToken } from '../../app.constants';
 import { Search } from '../../dto';
 
 export class AbstractSearchService<
@@ -32,7 +31,6 @@ export class AbstractSearchService<
     protected readonly translationService?: GetTranslationService,
     protected readonly errorService?: ErrorService,
     @Inject(REQUEST) protected readonly request?: Request,
-    @Inject(DependencyInjectorToken.SCOPE_KEY)
     protected readonly scopeKey?: string,
   ) {
     super(

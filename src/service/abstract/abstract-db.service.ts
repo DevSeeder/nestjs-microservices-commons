@@ -17,10 +17,7 @@ import {
   SearchEgineOperators,
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractDocument } from '../../schema/abstract.schema';
-import {
-  DependencyInjectorToken,
-  VALIDATE_ID_ENUMS,
-} from '../../app.constants';
+import { VALIDATE_ID_ENUMS } from '../../app.constants';
 import { Relation } from '../../interface/relation.interface';
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import { GenericRepository } from '../../mongoose/generic.repository';
@@ -38,7 +35,6 @@ export class AbstractDBService<
     protected readonly translationService?: GetTranslationService,
     protected readonly errorService?: ErrorService,
     @Inject(REQUEST) protected readonly request?: Request,
-    @Inject(DependencyInjectorToken.SCOPE_KEY)
     protected readonly scopeKey?: string,
   ) {
     super(entity, fieldSchemaData, entitySchemaData);
