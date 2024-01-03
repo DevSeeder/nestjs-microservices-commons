@@ -11,3 +11,5 @@ export * from './enum';
 export * from './field-schemas';
 export * from './loader';
 export * from './interceptor';
+export * from './injector';
+export * from './module';
