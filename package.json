@@ -34,7 +34,7 @@
   "bugs": "https://github.com/DevSeeder/nestjs-microservices-commons/",
   "dependencies": {
     "@devseeder/microservices-exceptions": "^1.0.5",
-    "@devseeder/nestjs-microservices-core": "^1.0.17",
+    "@devseeder/nestjs-microservices-core": "^1.0.18",
     "@devseeder/nestjs-microservices-schemas": "^1.0.33",
     "@golevelup/nestjs-rabbitmq": "^3.2.0",
     "@nestjs/common": "^9.0.11",
