@@ -164,8 +164,6 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     await this.model
       .findOneAndUpdate(query, { $set: data, ...pushData }, options)
       .catch((err) => {
-        console.log('Mongo Error');
-        console.log(err);
         throw new MongoDBException(err.message, err.code);
       });
   }

@@ -1,4 +1,4 @@
-import { DBReference } from 'src/interface/db-reference.interface';
+import { DBReference } from '../interface/db-reference.interface';
 
 export abstract class AbstractTransformation<ItemReference> {
   abstract dbRefs: DBReference[];
