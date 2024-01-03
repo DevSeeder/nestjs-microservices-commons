@@ -57,7 +57,7 @@ export class GenericRepository<Collection> extends MongooseRepository<
     return this.model.aggregate(aggParam);
   }
 
-  private returnLookupGroupBy(
+  protected returnLookupGroupBy(
     entityRel: string,
     fkField: string,
     array = false,
