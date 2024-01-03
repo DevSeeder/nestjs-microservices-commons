@@ -18,11 +18,7 @@ import {
   FieldSchema,
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractController } from '../abstract/abstract.controller';
-import {
-  CustomJwtAuthGuard,
-  MetaDataInterceptor,
-  MetaScope,
-} from '@devseeder/nestjs-microservices-core';
+import { MetaScope } from '@devseeder/nestjs-microservices-core';
 import {
   ClonyManyBodyDto,
   ClonyOneBodyDto,
@@ -32,6 +28,7 @@ import {
   CloneOneResponse,
 } from '../../dto/response/clone.response';
 import { GenericCreateService } from '../../service/abstract/generic-create.service';
+import { MetaDataInterceptor } from '../../interceptor';
 
 const allKey = 'CREATE';
 

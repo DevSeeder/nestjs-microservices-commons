@@ -17,10 +17,9 @@ import {
   FieldSchema,
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractController } from '../abstract/abstract.controller';
-import {
-  MetaDataInterceptor,
-  MetaScope,
-} from '@devseeder/nestjs-microservices-core';
+import { MetaScope } from '@devseeder/nestjs-microservices-core';
+import { MetaDataInterceptor } from '../../interceptor';
+
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import {
   CountResponse,

@@ -18,10 +18,9 @@ import {
   FieldSchema,
 } from '@devseeder/nestjs-microservices-schemas';
 import { AbstractController } from '../abstract/abstract.controller';
-import {
-  MetaDataInterceptor,
-  MetaScope,
-} from '@devseeder/nestjs-microservices-core';
+import { MetaScope } from '@devseeder/nestjs-microservices-core';
+import { MetaDataInterceptor } from '../../interceptor';
+
 import { ActivationQueryParams } from '../../dto/query/activation-query-params.dto';
 import { GenericUpdateService } from '../../service/abstract/generic-update.service';
 
