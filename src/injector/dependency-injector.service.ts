@@ -12,14 +12,14 @@ import {
   EntitySchema,
   FieldSchema,
 } from '@devseeder/nestjs-microservices-schemas';
-import { DependencyInjectorToken } from 'src/app.constants';
-import { AbstractBodyDto, CustomProvider, Search } from 'src/dto';
-import { GenericRepository } from 'src/mongoose';
+import { DependencyInjectorToken } from '../app.constants';
+import { AbstractBodyDto, CustomProvider, Search } from '../dto';
+import { GenericRepository } from '../mongoose';
 import {
   GenericCreateService,
   GenericGetService,
   GenericUpdateService,
-} from 'src/service';
+} from '../service';
 import { ModelEntityTokens } from './model-entity-token.injector';
 
 @Injectable({ scope: Scope.REQUEST })

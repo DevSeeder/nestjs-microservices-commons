@@ -15,19 +15,19 @@ import {
 } from '@devseeder/nestjs-microservices-schemas';
 
 import { JwtService } from '@nestjs/jwt';
-import { CustomProvider } from 'src/dto';
-import { DependencyInjectorToken } from 'src/app.constants';
-import { GenericRepository } from 'src/mongoose';
+import { CustomProvider } from '../dto';
+import { DependencyInjectorToken } from '../app.constants';
+import { GenericRepository } from '../mongoose';
 import {
   GenericCreateController,
   GenericGetController,
   GenericUpdateController,
-} from 'src/controller';
-import { DependencyInjectorService } from 'src/injector/dependency-injector.service';
+} from '../controller';
+import { DependencyInjectorService } from '../injector/dependency-injector.service';
 import {
   EntityModelTokenBuilder,
   ModelEntityTokens,
-} from 'src/injector/model-entity-token.injector';
+} from '../injector/model-entity-token.injector';
 
 export interface GenericModuleOptions {
   modelName: string;

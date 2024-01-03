@@ -1,5 +1,5 @@
 import { getModelToken } from '@nestjs/mongoose';
-import { AbstractSchema } from 'src/schema/abstract.schema';
+import { AbstractSchema } from '../schema/abstract.schema';
 
 export interface ModelEntityTokens {
   [key: string]: {
