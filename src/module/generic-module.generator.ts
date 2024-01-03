@@ -7,8 +7,6 @@ export interface GeneratorModuleOptions {
   interceptor;
   configuration;
   modelTokens: ModelEntityTokens;
-  projectKey: string;
-  scopeKey: string;
 }
 
 export class GenericModuleGenerator {

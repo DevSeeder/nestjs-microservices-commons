@@ -1,1 +1,2 @@
-export * from './';
+export * from './abstract.schema';
+export * from './domain.schema';

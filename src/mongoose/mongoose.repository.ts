@@ -222,6 +222,14 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     return res.select(select).lean().exec();
   }
 
+  getIndexes(): object {
+    return this.model.collection.getIndexes() as unknown as object;
+  }
+
+  async count(searchParams: object): Promise<number> {
+    return this.model.countDocuments(searchParams);
+  }
+
   private async startSession(): Promise<void> {
     if (this.session) this.logger.warn(`Session already exists`);
     this.session = await this.model.startSession();
