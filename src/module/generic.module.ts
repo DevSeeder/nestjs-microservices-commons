@@ -63,9 +63,9 @@ export class GenericModule {
             options.modelTokens,
           ),
         ),
-        SchemasModule.forRootAsync(options.configuration, options.projectKey),
-        TranslationsModule.forRoot(options.configuration, options.projectKey),
-        ErrorSchemasModule.forRoot(options.configuration, options.projectKey),
+        SchemasModule.forRootAsync(options.configuration),
+        TranslationsModule.forRoot(options.configuration),
+        ErrorSchemasModule.forRoot(options.configuration),
       ],
       providers: [
         repositoryProvider,
