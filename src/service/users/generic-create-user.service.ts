@@ -15,7 +15,7 @@ import { GenericRepository } from 'src/mongoose';
 import { ClientAuthService } from '@devseeder/nestjs-microservices-core';
 import { DependencyInjectorToken } from 'src/app.constants';
 import { UserAuth } from '@devseeder/nestjs-microservices-core/dist/auth/model/user-auth.model';
-import { GenericCreateService } from '../abstract';
+import { GenericCreateService } from '../abstract/generic-create.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class GenericCreateUserService<
