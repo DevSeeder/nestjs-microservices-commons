@@ -28,13 +28,12 @@ import {
   EntityModelTokenBuilder,
   ModelEntityTokens,
 } from '../injector/model-entity-token.injector';
+import { ConfigService } from '@nestjs/config';
 
 export interface GenericModuleOptions {
   modelName: string;
   entity: string;
   configuration;
-  projectKey: string;
-  scopeKey: string;
   customProvider?: CustomProvider;
   authGuard;
   interceptor;
@@ -72,7 +71,9 @@ export class GenericModule {
         JwtService,
         {
           provide: DependencyInjectorToken.SCOPE_KEY,
-          useValue: options.scopeKey,
+          useFactory: async (config: ConfigService) =>
+            config.get<string>('auth.scopeKey'),
+          inject: [ConfigService],
         },
         options.authGuard,
         GenericModule.loadServiceProvider(
