@@ -11,9 +11,9 @@ import {
   FieldSchema,
 } from '@devseeder/nestjs-microservices-schemas';
 import { UserBodyDto } from '@devseeder/nestjs-microservices-core/dist/dto/user.dto';
-import { GenericRepository } from 'src/mongoose';
+import { GenericRepository } from '../../mongoose';
 import { ClientAuthService } from '@devseeder/nestjs-microservices-core';
-import { DependencyInjectorToken } from 'src/app.constants';
+import { DependencyInjectorToken } from '../../app.constants';
 import { UserAuth } from '@devseeder/nestjs-microservices-core/dist/auth/model/user-auth.model';
 import { GenericCreateService } from '../abstract/generic-create.service';
 
@@ -23,7 +23,7 @@ export class GenericCreateUserService<
   UserEntityBody extends UserBodyDto,
 > extends GenericCreateService<UserEntity, UserEntity, UserEntityBody> {
   constructor(
-    protected readonly repository: GenericRepository<UserEntity>,
+    protected readonly repository,
     protected readonly fieldSchemaData: FieldSchema[],
     protected readonly entitySchemaData: EntitySchema[],
     protected readonly translationService: GetTranslationService,
