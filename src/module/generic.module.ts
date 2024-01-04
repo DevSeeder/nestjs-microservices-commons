@@ -77,7 +77,10 @@ export class GenericModule {
           inject: [ConfigService],
         },
         options.authGuard,
-        options.moduleRef,
+        {
+          provide: 'ModuleRef',
+          useClass: options.moduleRef,
+        },
         GenericModule.loadServiceProvider(
           options.entity,
           'get',
