@@ -1,6 +1,6 @@
 {
   "name": "@devseeder/nestjs-microservices-commons",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "description": "NestJS Common Package for DevSeeder projects",
   "author": "Maick Speck <maick@devseeder.com>",
   "license": "MIT",
@@ -36,17 +36,14 @@
     "@devseeder/microservices-exceptions": "^1.0.5",
     "@devseeder/nestjs-microservices-core": "^1.0.18",
     "@devseeder/nestjs-microservices-schemas": "^1.0.33",
-    "@golevelup/nestjs-rabbitmq": "^3.2.0",
-    "@nestjs/common": "^9.0.11",
-    "@nestjs/config": "^2.2.0",
-    "@nestjs/core": "^9.0.11",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^2.3.4",
+    "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mongoose": "^9.2.0",
-    "@nestjs/passport": "^9.0.0",
     "joi": "^17.11.0",
     "mongoose": "^6.5.3",
-    "nest": "^0.1.6",
-    "passport-jwt": "^4.0.0"
+    "nest": "^0.1.6"
   },
   "jest": {
     "moduleFileExtensions": [
