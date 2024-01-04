@@ -20,7 +20,7 @@ export class GenericModuleGenerator {
       modules.push(
         GenericModule.forFeature({
           ...moduleOptions,
-          entity: entityToken['entity'],
+          entity: entityToken['collection'],
           modelName: entityToken['modelName'],
           customProvider: entityToken['customProvider'],
         }),
