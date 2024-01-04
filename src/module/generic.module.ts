@@ -38,6 +38,7 @@ export interface GenericModuleOptions {
   authGuard;
   interceptor;
   modelTokens: ModelEntityTokens;
+  moduleRef: ModuleRef;
 }
 
 @Module({})
@@ -76,7 +77,7 @@ export class GenericModule {
           inject: [ConfigService],
         },
         options.authGuard,
-        ModuleRef,
+        options.moduleRef,
         GenericModule.loadServiceProvider(
           options.entity,
           'get',

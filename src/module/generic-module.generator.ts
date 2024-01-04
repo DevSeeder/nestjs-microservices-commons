@@ -1,12 +1,14 @@
 import { DynamicModule } from '@nestjs/common';
 import { ModelEntityTokens } from '../injector';
 import { GenericModule } from './generic.module';
+import { ModuleRef } from '@nestjs/core';
 
 export interface GeneratorModuleOptions {
   authGuard;
   interceptor;
   configuration;
   modelTokens: ModelEntityTokens;
+  moduleRef: ModuleRef;
 }
 
 export class GenericModuleGenerator {
