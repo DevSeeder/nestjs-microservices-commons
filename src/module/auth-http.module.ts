@@ -7,7 +7,10 @@ import { ConfigService } from '@nestjs/config';
 @Module({
   imports: [HttpModule],
   controllers: [],
-  providers: [ClientAuthService, ConfigService],
-  exports: [ClientAuthService, ConfigService],
+  providers: [
+    { provide: ClientAuthService.name, useClass: ClientAuthService },
+    ConfigService,
+  ],
+  exports: [ClientAuthService.name, ConfigService],
 })
 export class AuthHttpModule {}
