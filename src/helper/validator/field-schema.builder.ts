@@ -154,7 +154,13 @@ export class FieldSchemaBuilder {
     fieldSchema
       .filter((field) => field.allowed.update)
       .forEach((schema) => {
-        const joiSchema = this.getType(Joi, schema, false, schema?.array);
+        const joiSchema = this.getType(
+          Joi,
+          schema,
+          false,
+          schema?.array,
+          fieldSchema,
+        );
         if (schema.type === 'enum')
           objectSchema[schema.key] = joiSchema
             .optional()
@@ -168,7 +174,13 @@ export class FieldSchemaBuilder {
     const objectSchema: SchemaMap = {};
 
     fieldSchema.forEach((schema) => {
-      let joiSchema = this.getType(Joi, schema, false, schema?.array);
+      let joiSchema = this.getType(
+        Joi,
+        schema,
+        false,
+        schema?.array,
+        fieldSchema,
+      );
       joiSchema = schema.required ? joiSchema.required() : joiSchema.optional();
       if (schema.type === 'enum')
         objectSchema[schema.key] = joiSchema
@@ -184,7 +196,9 @@ export class FieldSchemaBuilder {
     schema: FieldSchema,
     search = false,
     array = false,
+    schemasDb = [],
   ): AnySchema {
+    console.log('AnySchema');
     switch (schema.type) {
       case 'text':
       case 'string':
@@ -216,13 +230,46 @@ export class FieldSchemaBuilder {
       case 'translation':
       case 'object':
       case 'json':
-        return Joi.object();
+        const schemaObj = this.buildObjectFieldSchema(
+          Joi,
+          schema,
+          search,
+          array,
+          schemasDb,
+        );
+        return schemaObj ? Joi.object(schemaObj) : Joi.object();
       default:
         this.errorService.throwError(ErrorKeys.NOT_IMPLEMENTED, {
           key: 'Schema type',
           value: schema.type,
         });
     }
+  }
+
+  buildObjectFieldSchema(
+    Joi: Root,
+    schema: FieldSchema,
+    search = false,
+    array = false,
+    schemasDb: FieldSchema[] = [],
+  ): SchemaMap | null {
+    if (!schemasDb.length) return null;
+    const propObjFields = schemasDb.filter((sch) =>
+      sch.key.startsWith(`${schema.key}.`),
+    );
+    if (!propObjFields.length) return null;
+    const objSchema = {};
+    propObjFields.forEach((prop) => {
+      const propSchema = this.getType(
+        Joi,
+        schema,
+        search,
+        prop.array,
+        schemasDb,
+      );
+      objSchema[prop.key.replace(`${schema.key}.`, '')] = propSchema;
+    });
+    return objSchema;
   }
 
   buildSearchEngine(schema: FieldSchema, objectSchema: SchemaMap): boolean {
