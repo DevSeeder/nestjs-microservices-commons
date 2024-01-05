@@ -95,10 +95,6 @@ export class GenericModule {
           options.modelTokens,
           options.customProvider,
         ),
-        {
-          provide: 'ClientAuthService',
-          useClass: ClientAuthService,
-        },
       ],
       exports: [
         repositoryProvider,
