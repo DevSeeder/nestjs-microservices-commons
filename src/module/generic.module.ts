@@ -1,5 +1,5 @@
 import { Module, DynamicModule } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule, HttpService } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   ErrorSchemasModule,
@@ -96,6 +96,7 @@ export class GenericModule {
           options.modelTokens,
           options.customProvider,
         ),
+        HttpService,
         HttpModule,
         {
           provide: ClientAuthService.name,
