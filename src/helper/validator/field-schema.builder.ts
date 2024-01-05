@@ -185,10 +185,12 @@ export class FieldSchemaBuilder {
     search = false,
     array = false,
   ): AnySchema {
+    console.log('AnySchema');
     switch (schema.type) {
       case 'text':
       case 'string':
       case 'password':
+      case 'image':
         return Joi.string();
       case 'email':
         return Joi.string().email();
