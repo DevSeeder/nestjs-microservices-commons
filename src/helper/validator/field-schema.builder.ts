@@ -185,7 +185,6 @@ export class FieldSchemaBuilder {
     search = false,
     array = false,
   ): AnySchema {
-    console.log('AnySchema');
     switch (schema.type) {
       case 'text':
       case 'string':
