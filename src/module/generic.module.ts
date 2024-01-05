@@ -31,6 +31,7 @@ import {
 } from '../injector/model-entity-token.injector';
 import { ConfigService } from '@nestjs/config';
 import { ClientAuthService } from '@devseeder/nestjs-microservices-core';
+import { AuthHttpModule } from './auth-http.module';
 
 export interface GenericModuleOptions {
   modelName: string;
@@ -67,6 +68,7 @@ export class GenericModule {
         SchemasModule.forRootAsync(options.configuration),
         TranslationsModule.forRoot(options.configuration),
         ErrorSchemasModule.forRoot(options.configuration),
+        AuthHttpModule,
       ],
       providers: [
         repositoryProvider,
@@ -96,19 +98,12 @@ export class GenericModule {
           options.modelTokens,
           options.customProvider,
         ),
-        HttpService,
-        HttpModule,
-        {
-          provide: ClientAuthService.name,
-          useClass: ClientAuthService,
-        },
       ],
       exports: [
         repositoryProvider,
         `GENERIC_GET_SERVICE_${options.entity}`,
         `GENERIC_UPDATE_SERVICE_${options.entity}`,
         `GENERIC_CREATE_SERVICE_${options.entity}`,
-        ClientAuthService.name,
       ],
     };
   }
