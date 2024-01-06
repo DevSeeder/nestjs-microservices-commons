@@ -189,8 +189,9 @@ export class SchemaValidator {
     );
 
     if (translate) {
-      const translateKey = translate.replaceAll('"', '').replace(/$\d+$/, '');
-
+      const translateKey = translate
+        .replaceAll('"', '')
+        .replace(/\[\d+\]/g, '');
       const fieldTranslation =
         await this.translationService.getFieldTranslation(
           [fieldSchemas.filter((sch) => sch.key === translateKey)[0].entity],
