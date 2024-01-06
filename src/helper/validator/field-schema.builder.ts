@@ -100,15 +100,14 @@ export class FieldSchemaBuilder {
   }
 
   buildSchemas(fieldSchema: FieldSchema[]): InputSchema {
-    const cleanSchema = this.cleanSchema(fieldSchema);
     return {
-      search: this.buildSearchSchema(cleanSchema, commonSearchSchema),
-      update: this.buildUpdateSchema(cleanSchema),
-      create: this.buildCreateSchema(cleanSchema),
-      cloneOne: this.buildCloneSchema(cleanSchema, singleCloneSchema),
-      cloneMany: this.buildCloneSchema(cleanSchema, manyCloneSchema),
-      count: this.buildSearchSchema(cleanSchema),
-      groupBy: this.buildSearchSchema(cleanSchema, commonGroupBySchema),
+      search: this.buildSearchSchema(fieldSchema, commonSearchSchema),
+      update: this.buildUpdateSchema(fieldSchema),
+      create: this.buildCreateSchema(fieldSchema),
+      cloneOne: this.buildCloneSchema(fieldSchema, singleCloneSchema),
+      cloneMany: this.buildCloneSchema(fieldSchema, manyCloneSchema),
+      count: this.buildSearchSchema(fieldSchema),
+      groupBy: this.buildSearchSchema(fieldSchema, commonGroupBySchema),
       activation: Joi.object({ ...commonActivationSchema }),
     };
   }
@@ -123,7 +122,7 @@ export class FieldSchemaBuilder {
   ): ObjectSchema {
     const objectSchema: SchemaMap = {};
 
-    fieldSchema
+    this.cleanSchema(fieldSchema)
       .filter((field) => field.allowed.search)
       .forEach((schema) => {
         if (this.buildSearchEngine(schema, objectSchema)) return;
@@ -156,7 +155,7 @@ export class FieldSchemaBuilder {
   buildObjectUpdate(fieldSchema: FieldSchema[]): SchemaMap {
     const objectSchema: SchemaMap = {};
 
-    fieldSchema
+    this.cleanSchema(fieldSchema)
       .filter((field) => field.allowed.update)
       .forEach((schema) => {
         const joiSchema = this.getType(
@@ -178,7 +177,7 @@ export class FieldSchemaBuilder {
   buildCreateSchema(fieldSchema: FieldSchema[]): ObjectSchema {
     const objectSchema: SchemaMap = {};
 
-    fieldSchema.forEach((schema) => {
+    this.cleanSchema(fieldSchema).forEach((schema) => {
       let joiSchema = this.getType(
         Joi,
         schema,
