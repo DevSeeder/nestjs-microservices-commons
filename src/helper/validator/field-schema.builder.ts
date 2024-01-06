@@ -100,16 +100,21 @@ export class FieldSchemaBuilder {
   }
 
   buildSchemas(fieldSchema: FieldSchema[]): InputSchema {
+    const cleanSchema = this.cleanSchema(fieldSchema);
     return {
-      search: this.buildSearchSchema(fieldSchema, commonSearchSchema),
-      update: this.buildUpdateSchema(fieldSchema),
-      create: this.buildCreateSchema(fieldSchema),
-      cloneOne: this.buildCloneSchema(fieldSchema, singleCloneSchema),
-      cloneMany: this.buildCloneSchema(fieldSchema, manyCloneSchema),
-      count: this.buildSearchSchema(fieldSchema),
-      groupBy: this.buildSearchSchema(fieldSchema, commonGroupBySchema),
+      search: this.buildSearchSchema(cleanSchema, commonSearchSchema),
+      update: this.buildUpdateSchema(cleanSchema),
+      create: this.buildCreateSchema(cleanSchema),
+      cloneOne: this.buildCloneSchema(cleanSchema, singleCloneSchema),
+      cloneMany: this.buildCloneSchema(cleanSchema, manyCloneSchema),
+      count: this.buildSearchSchema(cleanSchema),
+      groupBy: this.buildSearchSchema(cleanSchema, commonGroupBySchema),
       activation: Joi.object({ ...commonActivationSchema }),
     };
+  }
+
+  cleanSchema(fieldSchema: FieldSchema[]): FieldSchema[] {
+    return fieldSchema.filter((sch) => sch.key.indexOf('.') === -1);
   }
 
   buildSearchSchema(
@@ -198,7 +203,6 @@ export class FieldSchemaBuilder {
     array = false,
     schemasDb = [],
   ): AnySchema {
-    console.log('AnySchema');
     switch (schema.type) {
       case 'text':
       case 'string':
@@ -226,7 +230,9 @@ export class FieldSchemaBuilder {
           Joi.string().regex(/^@/),
         );
       case 'array':
-        return search ? Joi.string() : Joi.array();
+        return search
+          ? Joi.string()
+          : this.buildArrayField(Joi, schema, search, schemasDb);
       case 'translation':
       case 'object':
       case 'json':
@@ -234,7 +240,6 @@ export class FieldSchemaBuilder {
           Joi,
           schema,
           search,
-          array,
           schemasDb,
         );
         return schemaObj ? Joi.object(schemaObj) : Joi.object();
@@ -246,11 +251,27 @@ export class FieldSchemaBuilder {
     }
   }
 
+  buildArrayField(
+    Joi: Root,
+    schema: FieldSchema,
+    search = false,
+    schemasDb: FieldSchema[] = [],
+  ): AnySchema {
+    if ((schema.itensType as unknown) !== 'object') return Joi.array();
+    const schemaObj = this.buildObjectFieldSchema(
+      Joi,
+      schema,
+      search,
+      schemasDb,
+    );
+    if (!schemaObj) return Joi.array();
+    return Joi.array().items(Joi.object(schemaObj));
+  }
+
   buildObjectFieldSchema(
     Joi: Root,
     schema: FieldSchema,
     search = false,
-    array = false,
     schemasDb: FieldSchema[] = [],
   ): SchemaMap | null {
     if (!schemasDb.length) return null;
@@ -260,13 +281,7 @@ export class FieldSchemaBuilder {
     if (!propObjFields.length) return null;
     const objSchema = {};
     propObjFields.forEach((prop) => {
-      const propSchema = this.getType(
-        Joi,
-        schema,
-        search,
-        prop.array,
-        schemasDb,
-      );
+      const propSchema = this.getType(Joi, prop, search, prop.array, schemasDb);
       objSchema[prop.key.replace(`${schema.key}.`, '')] = propSchema;
     });
     return objSchema;
