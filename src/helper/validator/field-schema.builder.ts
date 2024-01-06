@@ -280,7 +280,8 @@ export class FieldSchemaBuilder {
     if (!propObjFields.length) return null;
     const objSchema = {};
     propObjFields.forEach((prop) => {
-      const propSchema = this.getType(Joi, prop, search, prop.array, schemasDb);
+      let propSchema = this.getType(Joi, prop, search, prop.array, schemasDb);
+      if (prop.required) propSchema = propSchema.required();
       objSchema[prop.key.replace(`${schema.key}.`, '')] = propSchema;
     });
     return objSchema;

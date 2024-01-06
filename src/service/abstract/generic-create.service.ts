@@ -78,9 +78,14 @@ export class GenericCreateService<
               this.entitySchema.entity,
             );
 
+          const indexKey = (err.getResponse() as string)
+            .replace('E11000 duplicate key error collection: ', '')
+            .split(' index: ')[1]
+            .split('_')[0];
+
           this.errorService.throwError(ErrorKeys.ALREADY_EXISTS, {
             key: entityTranslation.itemLabel,
-            value: body['name'],
+            value: body[indexKey],
           });
         }
       }
