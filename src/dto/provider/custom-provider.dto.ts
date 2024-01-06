@@ -4,6 +4,7 @@ export interface CustomProvider {
   create?: ProviderArgs;
   repository?: { new (...args: any[]) };
   controller?: CustomController;
+  imports?: any[];
 }
 
 export interface ProviderArgs {

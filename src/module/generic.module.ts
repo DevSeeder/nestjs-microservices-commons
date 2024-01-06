@@ -68,7 +68,8 @@ export class GenericModule {
         SchemasModule.forRootAsync(options.configuration),
         TranslationsModule.forRoot(options.configuration),
         ErrorSchemasModule.forRoot(options.configuration),
-        AuthHttpModule,
+        ...((options?.customProvider && options?.customProvider?.imports) ||
+          []),
       ],
       providers: [
         repositoryProvider,
