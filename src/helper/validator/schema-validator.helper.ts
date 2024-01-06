@@ -189,7 +189,7 @@ export class SchemaValidator {
     );
 
     if (translate) {
-      const translateKey = translate.replaceAll('"', '');
+      const translateKey = translate.replaceAll('"', '').replace(/$\d+$/, '');
 
       const fieldTranslation =
         await this.translationService.getFieldTranslation(
