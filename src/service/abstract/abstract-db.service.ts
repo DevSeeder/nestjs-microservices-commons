@@ -144,7 +144,7 @@ export class AbstractDBService<
     value: string,
     validateInput = true,
   ): Promise<any> {
-    if (!value) return null;
+    if (!value || !value.length) return null;
 
     let objValue;
     try {
