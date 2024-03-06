@@ -21,12 +21,14 @@ import { AbstractDocument } from '../../schema/abstract.schema';
 import { Relation } from '../../interface/relation.interface';
 import { ErrorKeys } from '../../enum/error-keys.enum';
 import { GenericRepository } from '../../mongoose/generic.repository';
+import { MemoryQueryService } from '../memory-query/MemoryQueryService';
 
 export class AbstractDBService<
   Collection,
   MongooseModel,
   ResponseModel,
 > extends AbstractEntityLoader {
+  private memoryQueryService: MemoryQueryService;
   constructor(
     protected readonly repository: GenericRepository<Collection>,
     protected readonly entity: string,
@@ -38,6 +40,7 @@ export class AbstractDBService<
     protected readonly scopeKey?: string,
   ) {
     super(entity, fieldSchemaData, entitySchemaData);
+    this.memoryQueryService = new MemoryQueryService();
   }
 
   protected async convertRelation(
@@ -147,10 +150,17 @@ export class AbstractDBService<
   ): Promise<any> {
     if (!value || (Array.isArray(value) && !value.length)) return null;
 
+    const memoryResult = this.memoryQueryService.getMemory(
+      this.entity,
+      rel.refKey ? rel.refKey : '_id',
+      value,
+    );
+
     let objValue;
     try {
       const serviceKey = `get${rel.service.capitalizeFirstLetter()}Service`;
-      if (rel?.refKey) {
+      if (memoryResult) objValue = memoryResult;
+      else if (rel?.refKey) {
         objValue = await this[serviceKey].search({ [rel?.refKey]: value });
       } else objValue = await this[serviceKey].getById(value);
     } catch (err) {
@@ -161,6 +171,14 @@ export class AbstractDBService<
         value,
       });
     }
+
+    if (!memoryResult)
+      this.memoryQueryService.set(
+        this.entity,
+        rel.refKey ? rel.refKey : '_id',
+        value,
+        objValue,
+      );
 
     const objKey = rel.repoKey ? rel.repoKey : 'name';
 
