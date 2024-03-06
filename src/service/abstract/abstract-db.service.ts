@@ -150,9 +150,9 @@ export class AbstractDBService<
     let objValue;
     try {
       const serviceKey = `get${rel.service.capitalizeFirstLetter()}Service`;
-      if (rel?.refKey)
-        objValue = await this[serviceKey].search({ refKey: value });
-      else objValue = await this[serviceKey].getById(value);
+      if (rel?.refKey) {
+        objValue = await this[serviceKey].search({ [rel?.refKey]: value });
+      } else objValue = await this[serviceKey].getById(value);
     } catch (err) {
       this.logger.error(`Error searching id: ${JSON.stringify(err)}`);
       this.logger.error(err);
