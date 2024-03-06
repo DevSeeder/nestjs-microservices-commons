@@ -66,6 +66,7 @@ export class AbstractDBService<
     const rel: Relation = {
       key: schema.key,
       service: schema.externalRelation.service,
+      refKey: schema.externalRelation['refKey'] || undefined,
     };
 
     let keys: Array<SearchEgineOperators | ''> = [''];
@@ -114,7 +115,7 @@ export class AbstractDBService<
 
     if (value === undefined) return true;
 
-    if (!Array.isArray(value) && value.split(',').length > 1)
+    if (!Array.isArray(value) && String(value).split(',').length > 1)
       value = value.split(',');
 
     if (Array.isArray(value) && value.length) {
@@ -144,12 +145,14 @@ export class AbstractDBService<
     value: string,
     validateInput = true,
   ): Promise<any> {
-    if (!value || !value.length) return null;
+    if (!value || (Array.isArray(value) && !value.length)) return null;
 
     let objValue;
     try {
       const serviceKey = `get${rel.service.capitalizeFirstLetter()}Service`;
-      objValue = await this[serviceKey].getById(value);
+      if (rel?.refKey)
+        objValue = await this[serviceKey].search({ refKey: value });
+      else objValue = await this[serviceKey].getById(value);
     } catch (err) {
       this.logger.error(`Error searching id: ${JSON.stringify(err)}`);
       this.logger.error(err);
