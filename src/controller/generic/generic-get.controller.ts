@@ -142,7 +142,7 @@ export function GenericGetController<
 
     @UseGuards(authGuard)
     @MetaScope({ entity, accessKey: 'GET_FORM' })
-    @Get(`/form/`)
+    @Get(`/form/fields`)
     getForm(): Promise<FormSchemaResponse> {
       return this.getService.getForm();
     }
