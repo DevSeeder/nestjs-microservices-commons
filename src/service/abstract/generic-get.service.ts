@@ -153,14 +153,7 @@ export class GenericGetService<
   }
 
   async getForm(page: string): Promise<FormSchemaResponse> {
-    const fields = this.fieldSchemaDb.filter((field) =>
-      new FieldSchemaBuilder(
-        this.errorService,
-        this.translationService,
-        this.entity,
-        this.entitySchemaData,
-      ).getFormFilterCondition(page, field),
-    );
+    const fields = this.fieldSchemaDb);
     const orderFields = this.fieldSchemaDb.filter((fields) => fields.orderBy);
     const arrayResponse = [];
 
@@ -174,14 +167,12 @@ export class GenericGetService<
         objectItem['values'] = values.data;
       }
 
-      const fieldTranslation =
+      objectItem['translation'] =
         await this.translationService.getFieldTranslation(
           this.entityLabels,
           field.key,
         );
-
-      objectItem.label = fieldTranslation.fieldLabel;
-
+        
       arrayResponse.push(objectItem);
     }
 
