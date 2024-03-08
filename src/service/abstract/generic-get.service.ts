@@ -153,7 +153,7 @@ export class GenericGetService<
   }
 
   async getForm(page: string): Promise<FormSchemaResponse> {
-    const fields = this.fieldSchemaDb);
+    const fields = this.fieldSchemaDb;
     const orderFields = this.fieldSchemaDb.filter((fields) => fields.orderBy);
     const arrayResponse = [];
 
@@ -172,7 +172,7 @@ export class GenericGetService<
           this.entityLabels,
           field.key,
         );
-        
+
       arrayResponse.push(objectItem);
     }
 
