@@ -152,7 +152,7 @@ export class GenericGetService<
     return this.convertRelation(item);
   }
 
-  async getForm(page: string): Promise<FormSchemaResponse> {
+  async getForm(): Promise<FormSchemaResponse> {
     const fields = this.fieldSchemaDb;
     const orderFields = this.fieldSchemaDb.filter((fields) => fields.orderBy);
     const arrayResponse = [];
@@ -205,20 +205,19 @@ export class GenericGetService<
       },
     };
 
-    if (page === FieldSchemaPage.SEARCH)
-      response.filterOptions = {
-        orderBy: await Promise.all(
-          orderFields.map(async (field) => ({
-            key: field.key,
-            label: (
-              await this.translationService.getFieldTranslation(
-                this.entityLabels,
-                field.key,
-              )
-            ).fieldLabel,
-          })),
-        ),
-      };
+    response.filterOptions = {
+      orderBy: await Promise.all(
+        orderFields.map(async (field) => ({
+          key: field.key,
+          label: (
+            await this.translationService.getFieldTranslation(
+              this.entityLabels,
+              field.key,
+            )
+          ).fieldLabel,
+        })),
+      ),
+    };
 
     return response;
   }

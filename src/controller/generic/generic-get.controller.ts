@@ -142,9 +142,9 @@ export function GenericGetController<
 
     @UseGuards(authGuard)
     @MetaScope({ entity, accessKey: 'GET_FORM' })
-    @Get(`/form/:page`)
-    getForm(@Param('page') page: string): Promise<FormSchemaResponse> {
-      return this.getService.getForm(page);
+    @Get(`/form/`)
+    getForm(): Promise<FormSchemaResponse> {
+      return this.getService.getForm();
     }
 
     @UseGuards(authGuard)
