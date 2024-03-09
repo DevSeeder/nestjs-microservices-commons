@@ -3,5 +3,5 @@ export interface Relation {
   service: string;
   repoKey?: string;
   refKey?: string | undefined;
-  skipTranslate: boolean;
+  skipTranslate?: boolean;
 }
