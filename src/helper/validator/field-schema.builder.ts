@@ -228,6 +228,7 @@ export class FieldSchemaBuilder {
         if (schema.max !== undefined) joiSchema = joiSchema.max(schema.max);
         return joiSchema;
       case 'date':
+      case 'datetime':
         return Joi.alternatives().try(
           Joi.date().iso(),
           Joi.string().regex(/^@/),
