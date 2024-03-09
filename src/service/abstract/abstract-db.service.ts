@@ -70,6 +70,8 @@ export class AbstractDBService<
       key: schema.key,
       service: schema.externalRelation.service,
       refKey: schema.externalRelation['refKey'] || undefined,
+      repoKey: schema.externalRelation['repoKey'] || undefined,
+      skipTranslate: schema.externalRelation['skipTranslate'] || false,
     };
 
     let keys: Array<SearchEgineOperators | ''> = [''];
