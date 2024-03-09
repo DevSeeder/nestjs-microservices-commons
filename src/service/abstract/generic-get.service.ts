@@ -163,7 +163,12 @@ export class GenericGetService<
       if (field.type === 'externalId' && !field.hidden) {
         const values = await this[
           `get${field.externalRelation.service.capitalizeFirstLetter()}Service`
-        ].search({ pageSize: 50, select: 'name' });
+        ].search({
+          pageSize: 50,
+          select: field.externalRelation?.nameKey
+            ? field.externalRelation.nameKey
+            : 'name',
+        });
         objectItem['values'] = values.items;
       }
 
