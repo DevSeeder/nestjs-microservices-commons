@@ -207,6 +207,8 @@ export class FieldSchemaBuilder {
       case 'string':
       case 'password':
       case 'image':
+      case 'link':
+      case 'file':
         return Joi.string();
       case 'email':
         return Joi.string().email();
@@ -217,6 +219,8 @@ export class FieldSchemaBuilder {
       case 'boolean':
         return Joi.boolean();
       case 'number':
+      case 'currency':
+      case 'decimal':
       case 'double':
       case 'integer':
         let joiSchema = Joi.number();
