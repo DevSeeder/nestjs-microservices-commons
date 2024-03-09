@@ -164,7 +164,7 @@ export class GenericGetService<
         const values = await this[
           `get${field.externalRelation.service.capitalizeFirstLetter()}Service`
         ].search({ pageSize: 50, select: 'name' });
-        objectItem['values'] = values.data;
+        objectItem['values'] = values.items;
       }
 
       objectItem['translation'] =
@@ -199,9 +199,8 @@ export class GenericGetService<
         })),
       ),
       entityRefs: {
-        entity: this.entitySchema.entity,
-        label: entityTranslation.entityLabel,
-        forbiddenMethods: this.entitySchema.forbiddenMethods,
+        translations: entityTranslation,
+        ...this.entitySchema,
       },
     };
 

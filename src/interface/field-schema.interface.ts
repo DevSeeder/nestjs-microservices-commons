@@ -1,4 +1,7 @@
-import { FieldSchema } from '@devseeder/nestjs-microservices-schemas';
+import {
+  EntityTranslation,
+  FieldSchema,
+} from '@devseeder/nestjs-microservices-schemas';
 
 export interface FormSchemaResponse {
   fields: Array<FieldSchema & FormFieldResponse>;
@@ -13,6 +16,7 @@ export interface FormSchemaResponse {
     entity: string;
     label: string;
     forbiddenMethods: string[];
+    translations: EntityTranslation;
   };
 }
 
