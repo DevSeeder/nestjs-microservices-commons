@@ -193,7 +193,11 @@ export class AbstractDBService<
 
     let valueRelation = objValue[objKey];
 
-    if (objValue.translations && objValue.translations.length) {
+    if (
+      objValue.translations &&
+      objValue.translations.length &&
+      !rel.skipTranslate
+    ) {
       const lang = this.translationService.getLang();
       const translation = objValue.translations.filter(
         (tra) => tra.locale == lang,
