@@ -167,7 +167,7 @@ export class GenericGetService<
           pageSize: 50,
           select: field.externalRelation?.nameKey
             ? field.externalRelation.nameKey
-            : 'name',
+            : 'name,icon',
         });
         objectItem['values'] = values.items;
       }
