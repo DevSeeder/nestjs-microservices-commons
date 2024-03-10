@@ -256,7 +256,10 @@ export class GenericGetService<
 
     const selectParam = {};
     params.select.split(',').forEach((key) => {
-      if (!this.fieldSchemaDb.find((schema) => schema.key === key))
+      if (
+        !this.fieldSchemaDb.find((schema) => schema.key === key) &&
+        !['icon'].includes(key)
+      )
         this.errorService.throwError(ErrorKeys.INVALID_DATA, {
           key: 'select field',
           value: key,
