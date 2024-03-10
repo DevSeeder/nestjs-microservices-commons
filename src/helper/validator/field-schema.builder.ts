@@ -312,6 +312,11 @@ export class FieldSchemaBuilder {
       objectSchema[`${schema.key}_${op}`] = joiSchema.optional();
     });
 
+    if (schema.type == 'boolean') {
+      const joiSchema = this.getType(Joi, schema, true);
+      objectSchema[`${schema.key}_ne`] = joiSchema.optional();
+    }
+
     return ignoreOriginalKey;
   }
 
