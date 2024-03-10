@@ -306,7 +306,6 @@ export class FieldSchemaBuilder {
     }
 
     Object.values(SearchEgineOperators).forEach((op) => {
-      if (SKIP_ENUMS.includes(op)) return;
       ignoreOriginalKey = false;
       const joiSchema = this.getType(Joi, schema, true);
       objectSchema[`${schema.key}_${op}`] = joiSchema.optional();
