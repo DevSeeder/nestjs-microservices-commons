@@ -122,8 +122,8 @@ export class FieldSchemaBuilder {
   ): ObjectSchema {
     const objectSchema: SchemaMap = {};
 
-    this.cleanSchema(fieldSchema)
-      .filter((field) => field.allowed.search)
+    fieldSchema
+      .filter((field) => !field.key.startsWith('$') && field.allowed.search)
       .forEach((schema) => {
         if (this.buildSearchEngine(schema, objectSchema)) return;
 
