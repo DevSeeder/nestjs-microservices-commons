@@ -205,20 +205,18 @@ export class AbstractDBService<
     }
 
     let valueRelation = objValue[objKey];
+    let translated;
 
-    if (
-      objValue.translations &&
-      objValue.translations.length &&
-      !rel.skipTranslate
-    ) {
+    if (objValue.translations && objValue.translations.length) {
       const lang = this.translationService.getLang();
       const translation = objValue.translations.filter(
         (tra) => tra.locale == lang,
       );
       valueRelation = translation[0].value;
+      translated = valueRelation;
     }
 
-    return { ...objValue, valueRelation };
+    return { ...objValue, valueRelation, translated };
   }
 
   protected async validateId(id: string): Promise<MongooseModel> {
