@@ -101,10 +101,15 @@ export class AbstractDBService<
     }
 
     if (!isNormalValidation || value === undefined) return;
-
+    const valueRelation = await this.convertValueRelation(
+      rel,
+      value,
+      validateInput,
+    );
     itemResponse[rel.key] = {
       id: value,
-      value: await this.convertValueRelation(rel, value, validateInput),
+      ...valueRelation,
+      value: valueRelation['valueRelation'],
     };
   }
 
@@ -125,9 +130,15 @@ export class AbstractDBService<
 
     if (Array.isArray(value) && value.length) {
       const relPromises = value.map(async (val) => {
+        const valueRelation = await this.convertValueRelation(
+          relation,
+          val,
+          validateInput,
+        );
         return {
           id: val,
-          value: await this.convertValueRelation(relation, val, validateInput),
+          ...valueRelation,
+          value: valueRelation['valueRelation'],
         };
       });
 
@@ -207,7 +218,7 @@ export class AbstractDBService<
       valueRelation = translation[0].value;
     }
 
-    return valueRelation;
+    return { ...objValue, valueRelation };
   }
 
   protected async validateId(id: string): Promise<MongooseModel> {
