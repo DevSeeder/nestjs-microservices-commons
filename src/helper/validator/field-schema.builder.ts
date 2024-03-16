@@ -169,7 +169,7 @@ export class FieldSchemaBuilder {
           objectSchema[schema.key] = joiSchema
             .optional()
             .custom(this.schemaValidator.validateEnum(schema.enumValues));
-        else objectSchema[schema.key] = joiSchema.optional();
+        else objectSchema[schema.key] = joiSchema.optional().allow(null);
       });
     return objectSchema;
   }
@@ -185,10 +185,13 @@ export class FieldSchemaBuilder {
         schema?.array,
         fieldSchema,
       );
-      joiSchema = schema.required ? joiSchema.required() : joiSchema.optional();
+      joiSchema = schema.required
+        ? joiSchema.required()
+        : joiSchema.optional().allow(null);
       if (schema.type === 'enum')
         objectSchema[schema.key] = joiSchema
           .optional()
+          .allow(null)
           .custom(this.schemaValidator.validateEnum(schema.enumValues));
       else objectSchema[schema.key] = joiSchema;
     });

@@ -184,8 +184,6 @@ export abstract class MongooseRepository<Collection, MongooseModel> {
     return result.exec((err, result) => {
       if (err) throw new MongoDBException(err.message, err.name);
 
-      console.log(result.modifiedCount, 'records updated.');
-
       return result;
     });
   }
