@@ -1,6 +1,6 @@
 {
   "name": "@devseeder/nestjs-microservices-commons",
-  "version": "1.0.92",
+  "version": "1.0.93",
   "description": "NestJS Common Package for DevSeeder projects",
   "author": "Maick Speck <maick@devseeder.com>",
   "license": "MIT",
@@ -35,7 +35,7 @@
   "dependencies": {
     "@devseeder/microservices-exceptions": "^1.0.8",
     "@devseeder/nestjs-microservices-core": "^1.0.24",
-    "@devseeder/nestjs-microservices-schemas": "^1.0.39",
+    "@devseeder/nestjs-microservices-schemas": "^1.0.42",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^8.4.7",
     "@nestjs/config": "^2.2.0",

@@ -211,7 +211,6 @@ export class FieldSchemaBuilder {
       case 'password':
       case 'image':
       case 'link':
-      case 'file':
         return Joi.string();
       case 'email':
         return Joi.string().email();
@@ -250,6 +249,8 @@ export class FieldSchemaBuilder {
           schemasDb,
         );
         return schemaObj ? Joi.object(schemaObj) : Joi.object();
+      case 'file':
+        return schema.array ? Joi.array() : Joi.object();
       default:
         this.errorService.throwError(ErrorKeys.NOT_IMPLEMENTED, {
           key: 'Schema type',
