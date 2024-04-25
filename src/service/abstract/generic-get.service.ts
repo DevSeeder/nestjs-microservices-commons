@@ -165,8 +165,8 @@ export class GenericGetService<
           `get${field.externalRelation.service.capitalizeFirstLetter()}Service`
         ].search({
           pageSize: 50,
-          select: field.externalRelation?.nameKey
-            ? field.externalRelation.nameKey
+          select: field.externalRelation['nameKey']
+            ? field.externalRelation['nameKey']
             : 'name,icon',
         });
         objectItem['values'] = values.items;
